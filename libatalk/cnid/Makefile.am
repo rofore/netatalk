@@ -22,6 +22,11 @@ SUBDIRS += mysql
 LIBCNID_DEPS += @MYSQL_LIBS@ mysql/libcnid_mysql.la
 endif
 
+if USE_SQLITE_BACKEND
+SUBDIRS += sqlite
+LIBCNID_DEPS += @SQLITE_LIBS@ mysql/libcnid_mysql.la
+endif
+
 libcnid_la_SOURCES = cnid.c cnid_init.c
 libcnid_la_LIBADD = $(LIBCNID_DEPS)
 
