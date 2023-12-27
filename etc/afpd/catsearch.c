@@ -21,7 +21,8 @@
  *
  * Starting with Netatalk 2.2 searching by name criteria utilizes the
  * CNID database in conjunction with an enhanced cnid_dbd. This requires
- * the use of cnidscheme:dbd for the searched volume.
+ * the use of cnidscheme:dbd for the searched volume, the new functionality
+ * is not built into cnidscheme:cdb.
  */
 
 #ifdef HAVE_CONFIG_H

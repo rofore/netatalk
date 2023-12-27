@@ -70,7 +70,6 @@ void readmessage(AFPObj *obj)
     message=fopen(filename, "r");
     if (message==NULL) {
         /* try without the process id */
-        LOG(log_info, logtype_afpd, "Unable to open file %s; trying without the pid", filename);
         sprintf(filename, "%s/message", SERVERTEXT);
         message=fopen(filename, "r");
     }
