@@ -3,7 +3,7 @@ XSLTPROC_FLAGS=@XSLTPROC_FLAGS@
 MAN_STYLESHEET=$(top_srcdir)/doc/man.xsl
 CLEANFILES =
 
-MAN_MANPAGES = \
+man_MANS = \
 	ad.1 \
 	afpldaptest.1 \
 	afppasswd.1 \
@@ -26,11 +26,10 @@ EXTRA_DIST = \
 	netatalk-config.1.xml
 
 if HAVE_XSLTPROC
-CLEANFILES += $(MAN_MANPAGES)
+CLEANFILES += $(man_MANS)
 
-$(MAN_MANPAGES) : %.1 : %.1.xml
+$(man_MANS) : %.1 : %.1.xml
 	@xsltproc $(MAN_STYLESHEET) $<
-	@cp $@ $(top_builddir)/man/man1/$@.in
 
-html-local: $(MAN_MANPAGES) $(MAN_STYLESHEET)
+html-local: $(man_MANS) $(MAN_STYLESHEET)
 endif

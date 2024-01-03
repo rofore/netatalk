@@ -3,7 +3,7 @@ XSLTPROC_FLAGS=@XSLTPROC_FLAGS@
 MAN_STYLESHEET=$(top_srcdir)/doc/man.xsl
 CLEANFILES =
 
-MAN_MANPAGES = \
+man_MANS = \
 	afpd.8 \
 	cnid_dbd.8 \
 	cnid_metad.8 \
@@ -16,11 +16,10 @@ EXTRA_DIST = \
 	netatalk.8.xml
 
 if HAVE_XSLTPROC
-CLEANFILES += $(MAN_MANPAGES)
+CLEANFILES += $(man_MANS)
 
-$(MAN_MANPAGES) : %.8 : %.8.xml
+$(man_MANS) : %.8 : %.8.xml
 	@xsltproc $(MAN_STYLESHEET) $<
-	@cp $@ $(top_builddir)/man/man8/$@.in
 
-html-local: $(MAN_MANPAGES) $(MAN_STYLESHEET)
+html-local: $(man_MANS) $(MAN_STYLESHEET)
 endif

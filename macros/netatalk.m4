@@ -14,6 +14,13 @@ AC_DEFUN([AX_CHECK_DOCBOOK], [
     ),
     [DOCBOOK_ROOT=$withval]
   )
+  
+  for i in /usr/share/sgml/docbook/stylesheet/xsl/nwalsh /usr/share/sgml/docbook/xsl-stylesheets/ /usr/local/share/xsl/docbook /usr/local/opt/docbook-xsl/docbook-xsl ;
+    do
+      if test -d "$i"; then
+        DOCBOOK_ROOT=$i
+      fi
+  done
 
   if test -n "$DOCBOOK_ROOT" ; then
     AC_CHECK_PROG(XSLTPROC,xsltproc,xsltproc,)
