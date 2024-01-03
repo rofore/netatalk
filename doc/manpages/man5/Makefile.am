@@ -3,7 +3,7 @@ XSLTPROC_FLAGS=@XSLTPROC_FLAGS@
 MAN_STYLESHEET=$(top_srcdir)/doc/man.xsl
 CLEANFILES =
 
-man_MANS = \
+MAN_MANPAGES = \
 	afp.conf.5 \
 	afp_signature.conf.5 \
 	afp_voluuid.conf.5 \
@@ -16,10 +16,12 @@ EXTRA_DIST = \
 	extmap.conf.5.xml
 
 if HAVE_XSLTPROC
-CLEANFILES += $(man_MANS)
+CLEANFILES += $(MAN_MANPAGES)
 
-$(man_MANS) : %.5 : %.5.xml
+$(MAN_MANPAGES) : %.5 : %.5.xml
 	@xsltproc $(MAN_STYLESHEET) $<
 
-html-local: $(man_MANS) $(MAN_STYLESHEET)
+man_MANS= $(MAN_MANPAGES)
+
+html-local: $(MAN_MANPAGES) $(MAN_STYLESHEET)
 endif
