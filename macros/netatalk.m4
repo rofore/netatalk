@@ -324,6 +324,8 @@ if AC_TRY_EVAL(ac_compile); then
       ;;
     esac
 fi
+cp conftest.c /tmp
+cp conftest.o /tmp
 rm -rf conftest*
 
 case $host_cpu:$atalk_cv_cc_64bit_output in
