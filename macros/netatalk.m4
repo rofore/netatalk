@@ -52,14 +52,6 @@ AC_DEFUN([AC_NETATALK_DTRACE], [
     [WDTRACE=$withval],
     [WDTRACE=auto]
   )
-  dnl the macOS version of dtrace is currently unsupported
-  case "$host_os" in
-  *darwin*)
-  if test x"$WDTRACE" = x"auto" ; then
-  WDTRACE=no
-  fi
-  ;;
-  esac
   dnl the version of dtrace on aarch64 FreeBSD is currently unsupported
   case "$host_cpu" in
   aarch64)
@@ -662,6 +654,10 @@ if test x"$this_os" = "xsolaris"; then
     AC_DEFINE(_XOPEN_SOURCE, 600, [Solaris compilation environment])
     AC_DEFINE(__EXTENSIONS__,  1, [Solaris compilation environment])
 	init_style=solaris
+fi
+dnl ----- macOS specific -----
+if test x"$this_os" = "xmacosx"; then
+	AM_CONDITIONAL(DARWIN_DTRACE, test x"$this_os" != x"macosx")
 fi
 
 dnl Whether to run ldconfig after installing libraries

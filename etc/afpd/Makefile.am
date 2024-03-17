@@ -81,7 +81,7 @@ afpd_CFLAGS  += $(DBUS_CFLAGS) $(DBUS_GLIB_CFLAGS) $(DBUS_GTHREAD_CFLAGS) -DDBUS
 afpd_LDFLAGS += $(DBUS_LIBS) $(DBUS_GLIB_LIBS) $(DBUS_GTHREAD_LIBS) -ldbus-glib-1
 endif
 
-if WITH_DTRACE
+if SOLARIS_DTRACE
 DTRACE_OBJ = afpd-afp_dsi.o afpd-fork.o afpd-appl.o afpd-catsearch.o afpd-directory.o afpd-enumerate.o afpd-file.o afpd-filedir.o
 afp_dtrace.o: $(top_srcdir)/include/atalk/afp_dtrace.d $(DTRACE_OBJ)
 	if test -f afp_dtrace.o ; then rm -f afp_dtrace.o ; fi
