@@ -1,6 +1,6 @@
 man_xml = [
-    'atalk_aton.conf',
-    'nbp_name.conf',
+    'atalk_aton',
+    'nbp_name',
 ]
 
 foreach man : man_xml
