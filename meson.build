@@ -800,8 +800,10 @@ endif
 #
 
 rpcsvc = cc.find_library('rpcsvc', required: false)
-quota = cc.find_library('quota', required: false)
-tirpc = dependency('tirpc', required: false)
+quota = cc.find_library('libquota', required: false)
+tirpc = dependency('libtirpc', required: false)
+
+quota_link_args = []
 
 rpc_headers = [
     'rpc/rpc.h',
@@ -820,24 +822,36 @@ if get_option('enable-quota').disabled()
     have_quota = false
     cdata.set('NO_QUOTA_SUPPORT', 1)
 else
-    have_quota = (
-        tirpc.found()
-        or cc.has_function('main', dependencies: rpcsvc)
-        or cc.has_function('getfsquota', dependencies: quota)
-    )
-    if tirpc.found()
+    if tirpc.found() and get_option('with-libtirpc')
+        have_quota = true
         cdata.set('NEED_RQUOTA', 1)
-    endif
-    if quota.found()
-        cdata.set('HAVE_LIBQUOTA', 1)
-    endif
-    if not have_quota
-        cdata.set('NO_QUOTA_SUPPORT', 1)
+        if get_option('with-libtirpc') and not tirpc.found()
+            message('Libtirpc requested, but library not found')
+        endif
+    elif (
+        rpcsvc.found()
+        and (
+            cc.has_header('rpc/rpc.h')
+            or cc.has_header('rpc/pmap_prot.h')
+            or cc.has_header('rpcsvc/rquota.h')
+        )
+    )
+        have_quota = cc.has_function('main', dependencies: rpcsvc)
+        quota_link_args += '-lrpcsvc'
+        if quota.found()
+            have_quota = cc.has_function('getfsquota', dependencies: quota)
+            cdata.set('HAVE_LIBQUOTA', 1)
+            quota_link_args += ['-lquota', '-lprop', '-lrpcsvc']
+        endif
+    else
+        have_quota = false
     endif
 endif
 
+message(have_quota)
+
 if get_option('enable-quota').enabled() and not have_quota
-    warning('CUPS not found, you might need to specify the path to cups-config')
+    warning('Quota support requested but required libraries nor found')
 endif
 
 #

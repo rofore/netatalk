@@ -79,7 +79,8 @@ jobs:
         run: |
           meson setup build \
             -Dbuild-tests=true \
-            -Dbuild-manual=true
+            -Dbuild-manual=true \
+            -Dwith-libtirpc=true
       - name: Meson build and generate man pages
         run: ninja -C build
       - name: Meson tests
@@ -115,7 +116,8 @@ jobs:
       - name: Meson configure
         run: |
           meson setup build \
-            -Dbuild-tests=true
+            -Dbuild-tests=true \
+            -Dwith-libtirpc=true
       - name: Meson build
         run: ninja -C build
       - name: Meson tests
@@ -161,7 +163,8 @@ jobs:
       - name: Meson configure
         run: |
           meson setup build \
-            -Dbuild-tests=true
+            -Dbuild-tests=true \
+            -Dwith-libtirpc=true
       - name: Meson build
         run: ninja -C build
       - name: Meson tests
