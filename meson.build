@@ -1686,6 +1686,34 @@ elif host_os == 'sunos'
     cdata.set('_XOPEN_SOURCE', 600)
     cdata.set('NO_STRUCT_TM_GMTOFF', 1)
     cdata.set('SOLARIS', 1)
+
+    # Check if we can build Solaris kernel module
+
+    kcflags = []
+    kldflags = []
+    if fs.exists('/usr/ccs/bin/ld') and get_option('enable-ddp').enabled()
+        if fs.exists('/usr/bin/isainfo')
+            compile_64_bit_module = run_command(
+                '/usr/bin/isainfo',
+                '-kv',
+                check: true,
+            ).stdout().strip().contains('64-bit')
+            if compile_64_bit_module
+                kcflags += [
+                    '-xarch=v9',
+                    '-xregs=no%appl',
+                    '-D_KERNEL',
+                    '-mno-app-regs',
+                    '-munaligned-doubles',
+                    '-fpcc-struct-return',
+                ]
+                kldflags += '-64'
+            endif
+        endif
+    endif
+
+    gcc = find_program('gcc', required: false)
+
 endif
 
 #
